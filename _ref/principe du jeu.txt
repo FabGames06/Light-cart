@@ -1,0 +1,4 @@
+le jeu commence par placer un charriot sur un choix de x rails (4 rails, 4 chemins possibles).
+le jeu sera dans le noir, éclairé seulement par une zone définie autour du charriot, ce qui fait qu'on ne voit pas trop la suite d'où mène le rail, ni s'il se fini par une voie de garage.
+le niveau sera généré de manière procédurale.
+il faut atteindre le tout haut de l'écran et éviter les voies de garage.

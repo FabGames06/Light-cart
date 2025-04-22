@@ -1,0 +1,533 @@
+fileFormatVersion: 2
+guid: 633b54e20e96be74fae2312bfe17969e
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -7797057870736647096
+    second: lpc-mine-cart-carts-angles_0
+  - first:
+      213: 7042751092364434904
+    second: lpc-mine-cart-carts-angles_1
+  - first:
+      213: -7732959951608172458
+    second: lpc-mine-cart-carts-angles_2
+  - first:
+      213: 2173780304449273395
+    second: lpc-mine-cart-carts-angles_3
+  - first:
+      213: 8880205247291544820
+    second: lpc-mine-cart-carts-angles_4
+  - first:
+      213: 7997057746195622470
+    second: lpc-mine-cart-carts-angles_5
+  - first:
+      213: -6145369856331931725
+    second: lpc-mine-cart-carts-angles_6
+  - first:
+      213: -809423349906435685
+    second: lpc-mine-cart-carts-angles_7
+  - first:
+      213: -5314020262787927166
+    second: lpc-mine-cart-carts-angles_8
+  - first:
+      213: -8706797868650918784
+    second: lpc-mine-cart-carts-angles_9
+  - first:
+      213: 8457081448907927034
+    second: lpc-mine-cart-carts-angles_10
+  - first:
+      213: -228585851123761161
+    second: lpc-mine-cart-carts-angles_11
+  - first:
+      213: -8807947259652176767
+    second: lpc-mine-cart-carts-angles_12
+  - first:
+      213: -2800957629914903036
+    second: lpc-mine-cart-carts-angles_13
+  - first:
+      213: -2193714343385662721
+    second: lpc-mine-cart-carts-angles_14
+  - first:
+      213: 9072135634610520350
+    second: lpc-mine-cart-carts-angles_15
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: lpc-mine-cart-carts-angles_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 197
+        width: 32
+        height: 40
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 84c14995d294bc390800000000000000
+      internalID: -7797057870736647096
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lpc-mine-cart-carts-angles_1
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 197
+        width: 58
+        height: 38
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8dd50ededc0ecb160800000000000000
+      internalID: 7042751092364434904
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lpc-mine-cart-carts-angles_2
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 197
+        width: 60
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 650b21e15e10fa490800000000000000
+      internalID: -7732959951608172458
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lpc-mine-cart-carts-angles_3
+      rect:
+        serializedVersion: 2
+        x: 163
+        y: 197
+        width: 60
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 33e70727ba1da2e10800000000000000
+      internalID: 2173780304449273395
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lpc-mine-cart-carts-angles_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 132
+        width: 33
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4f45f518f93dc3b70800000000000000
+      internalID: 8880205247291544820
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lpc-mine-cart-carts-angles_5
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 133
+        width: 58
+        height: 38
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 64aa64266a14bfe60800000000000000
+      internalID: 7997057746195622470
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lpc-mine-cart-carts-angles_6
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 133
+        width: 60
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3bf11fbdca247baa0800000000000000
+      internalID: -6145369856331931725
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lpc-mine-cart-carts-angles_7
+      rect:
+        serializedVersion: 2
+        x: 163
+        y: 133
+        width: 60
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b919be370c954c4f0800000000000000
+      internalID: -809423349906435685
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lpc-mine-cart-carts-angles_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 68
+        width: 33
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2833c43d9bec046b0800000000000000
+      internalID: -5314020262787927166
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lpc-mine-cart-carts-angles_9
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 69
+        width: 58
+        height: 39
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 08c0fe3187d3b2780800000000000000
+      internalID: -8706797868650918784
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lpc-mine-cart-carts-angles_10
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 69
+        width: 60
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: afde3be25c69d5570800000000000000
+      internalID: 8457081448907927034
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lpc-mine-cart-carts-angles_11
+      rect:
+        serializedVersion: 2
+        x: 163
+        y: 69
+        width: 60
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ff76172166e3dcf0800000000000000
+      internalID: -228585851123761161
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lpc-mine-cart-carts-angles_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 4
+        width: 33
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1848e0442a2e3c580800000000000000
+      internalID: -8807947259652176767
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lpc-mine-cart-carts-angles_13
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 5
+        width: 58
+        height: 39
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 40e800e20eff029d0800000000000000
+      internalID: -2800957629914903036
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lpc-mine-cart-carts-angles_14
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 5
+        width: 60
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ffa71df6d6c5e81e0800000000000000
+      internalID: -2193714343385662721
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lpc-mine-cart-carts-angles_15
+      rect:
+        serializedVersion: 2
+        x: 163
+        y: 5
+        width: 60
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e118f1f1b43b6ed70800000000000000
+      internalID: 9072135634610520350
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 8181167be47a1f746af65232063c9cd9
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      lpc-mine-cart-carts-angles_0: -7797057870736647096
+      lpc-mine-cart-carts-angles_1: 7042751092364434904
+      lpc-mine-cart-carts-angles_10: 8457081448907927034
+      lpc-mine-cart-carts-angles_11: -228585851123761161
+      lpc-mine-cart-carts-angles_12: -8807947259652176767
+      lpc-mine-cart-carts-angles_13: -2800957629914903036
+      lpc-mine-cart-carts-angles_14: -2193714343385662721
+      lpc-mine-cart-carts-angles_15: 9072135634610520350
+      lpc-mine-cart-carts-angles_2: -7732959951608172458
+      lpc-mine-cart-carts-angles_3: 2173780304449273395
+      lpc-mine-cart-carts-angles_4: 8880205247291544820
+      lpc-mine-cart-carts-angles_5: 7997057746195622470
+      lpc-mine-cart-carts-angles_6: -6145369856331931725
+      lpc-mine-cart-carts-angles_7: -809423349906435685
+      lpc-mine-cart-carts-angles_8: -5314020262787927166
+      lpc-mine-cart-carts-angles_9: -8706797868650918784
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -4,7 +4,7 @@ using UnityEngine;
 public class Chariot : MonoBehaviour
 {
     public float speed = 1f; // Vitesse du chariot
-    public float detectionRadius = .3f; // Rayon pour détecter les rails courbés ou intersections
+    public float detectionRadius = 1f; // Rayon pour détecter les rails courbés ou intersections
     private bool isMovingUp = true; // Indique si le chariot est en mouvement
     private bool isMovingLeft = false;
     private bool isMovingRight = false;
@@ -51,14 +51,31 @@ public class Chariot : MonoBehaviour
                 isMovingLeft = true;
                 StartCoroutine(ArreteAvancer());
             }
-
         }
+
+        // sortie d'une bifurcation qui rejoint un rail droit
+        if(isMovingRight && collision.name == "S_SO")
+        {
+            StartCoroutine(ArreteTourner());
+        }
+
+        if (isMovingLeft && collision.name == "S_SE")
+        {
+            StartCoroutine(ArreteTourner());
+        }
+
     }
 
     public IEnumerator ArreteAvancer()
     {
         yield return new WaitForSeconds(.6f);
         isMovingUp = false;
+    }
+    public IEnumerator ArreteTourner()
+    {
+        yield return new WaitForSeconds(.9f);
+        isMovingRight = false;
+        isMovingUp = true;
     }
     private void OnDrawGizmos()
     {

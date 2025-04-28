@@ -6,6 +6,7 @@ public class Chariot : MonoBehaviour
 {
     public float detectionDistance = .5f;
     public float offsetDetect = 0.5f;
+    public GameObject canvastre;
 
     private bool isRouling;
     private bool lancement;
@@ -41,7 +42,10 @@ public class Chariot : MonoBehaviour
                 transform.position = new Vector3(-4.26f, transform.position.y);
 
             if(Input.GetKeyDown(KeyCode.Space))
+            {
+                canvastre.SetActive(false);
                 lancement = true;
+            }
         }
 
         // lancement de la main routine
@@ -116,6 +120,7 @@ public class Chariot : MonoBehaviour
         else
         {
             Debug.LogWarning("Aucun rail détecté, le chariot est en attente !");
+            lancement = false;
         }
     }
 

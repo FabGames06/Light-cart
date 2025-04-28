@@ -1,86 +1,127 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Splines;
 
 public class Chariot : MonoBehaviour
 {
-    public float speed = 1f; // Vitesse du chariot
-    public float detectionRadius = 1f; // Rayon pour détecter les rails courbés ou intersections
-    private bool isMovingUp = true; // Indique si le chariot est en mouvement
-    private bool isMovingLeft = false;
-    private bool isMovingRight = false;
+    public float detectionDistance = .5f;
+    public float offsetDetect = 0.5f;
+
+    private bool isRouling;
+    private bool lancement;
+    private SplineAnimate currentSplineAnimate;
+
+    void Start()
+    {
+        isRouling = false;
+        lancement = false;
+
+        currentSplineAnimate = GetComponent<SplineAnimate>();
+
+        if (currentSplineAnimate == null)
+            Debug.LogError("SplineAnimate introuvable sur le chariot !");
+    }
 
     void Update()
     {
-        if (isMovingUp)
+        if (!lancement)
         {
-            // Déplacer le chariot vers le haut
-            transform.position += Vector3.up * speed * Time.deltaTime;
+            if (Input.GetKeyDown(KeyCode.RightArrow))
+                transform.position = new Vector3(transform.position.x + 1.7f, transform.position.y);
+
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
+                transform.position = new Vector3(transform.position.x - 1.7f, transform.position.y);
+
+            // controles des limites
+            // limite droite
+            if(transform.position.x > 2.54f)
+                transform.position = new Vector3(2.54f, transform.position.y);
+            // limite gauche
+            if (transform.position.x < -4.26f)
+                transform.position = new Vector3(-4.26f, transform.position.y);
+
+            if(Input.GetKeyDown(KeyCode.Space))
+                lancement = true;
         }
 
-        if (isMovingLeft)
+        // lancement de la main routine
+        if (lancement)
         {
-            transform.position += Vector3.left * speed * Time.deltaTime;
-        }
-
-        if (isMovingRight)
-        {
-            transform.position += Vector3.right * speed * Time.deltaTime;
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        //Collider2D[] detectedObjects = Physics2D.OverlapCircleAll(transform.position, detectionRadius);
-        //foreach(Collider2D obj in detectedObjects)
-        //Debug.Log("longueur de Collider2D[] : "+ detectedObjects.Length);
-
-        // on donne la possibilité au chariot de tourner si on a une portion de rail NE ou NO
-        if (collision.name=="S_NE" || collision.name == "S_NO")
-        {
-            //isMovingUp = false;
-            Debug.Log("bifurcation sur : "+ collision.name);
-
-            if (Input.GetKey(KeyCode.RightArrow) && collision.name == "S_NE")
+            if (!isRouling)
             {
-                isMovingRight = true;
-                StartCoroutine(ArreteAvancer());
+                DetectCurrentRail();
             }
-
-            if (Input.GetKey(KeyCode.LeftArrow) && collision.name == "S_NO")
+            else if(!currentSplineAnimate.IsPlaying)
             {
-                isMovingLeft = true;
-                StartCoroutine(ArreteAvancer());
+                Debug.Log("animation end");
+                isRouling = false;
             }
         }
-
-        // sortie d'une bifurcation qui rejoint un rail droit
-        if(isMovingRight && collision.name == "S_SO")
-        {
-            StartCoroutine(ArreteTourner());
-        }
-
-        if (isMovingLeft && collision.name == "S_SE")
-        {
-            StartCoroutine(ArreteTourner());
-        }
-
     }
 
-    public IEnumerator ArreteAvancer()
+    public void DetectCurrentRail()
     {
-        yield return new WaitForSeconds(.6f);
-        isMovingUp = false;
+        Collider2D railHit = Physics2D.OverlapCircle(new Vector2(transform.position.x, transform.position.y + offsetDetect), detectionDistance);
+
+        if (railHit != null)
+        {
+            Transform leParent = railHit.transform.parent;
+
+            if (leParent == null)
+                Debug.Log("leParent est null...");
+            else
+            {
+                Debug.Log("railHit = " + railHit + "; prefab détecté : " + leParent);
+                
+                SplineContainer[] leSplineContainerTab = leParent.GetComponentsInChildren<SplineContainer>();
+                Debug.Log("leSplineContainerTab[0]=" + leSplineContainerTab[0].name);
+
+                SplineContainer leSplineContainer = leSplineContainerTab[0];
+
+                if (leSplineContainerTab.Length>1)
+                {
+                    Debug.Log("leSplineContainerTab[1]=" + leSplineContainerTab[1].name);
+                    leSplineContainer = leSplineContainerTab[1];
+                    /*
+                    // tourne à droite
+                    if (leSplineContainerTab[1].name == "SplineRight" && Input.GetKey(KeyCode.RightArrow))
+                    {
+                        Debug.Log("touche droite appuyée !");
+                        leSplineContainer = leSplineContainerTab[1];
+                        // force sur le nouveau rail
+                        currentSplineAnimate.Container = leSplineContainer; // Assigne le nouveau SplineContainer
+                        currentSplineAnimate.Restart(false);
+                        currentSplineAnimate.Play();
+                    }
+
+                    // tourne à gauche
+                    if (leSplineContainerTab[1].name == "SplineLeft" && Input.GetKey(KeyCode.LeftArrow))
+                    {
+                        Debug.Log("touche gauche appuyée !");
+                        leSplineContainer = leSplineContainerTab[1];
+                    }
+                    */
+                }
+
+                if (currentSplineAnimate != null && leSplineContainer != null && currentSplineAnimate.Container != leSplineContainer)
+                {
+                    currentSplineAnimate.Container = leSplineContainer; // Assigne le nouveau SplineContainer
+                    currentSplineAnimate.Restart(false);
+                    //Debug.Log("Nouveau SplineContainer assigné : " + currentSplineAnimate.Container);
+                    currentSplineAnimate.Play();
+                    isRouling = true;
+                }
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Aucun rail détecté, le chariot est en attente !");
+        }
     }
-    public IEnumerator ArreteTourner()
-    {
-        yield return new WaitForSeconds(.9f);
-        isMovingRight = false;
-        isMovingUp = true;
-    }
+
     private void OnDrawGizmos()
     {
-        // Dessiner la zone de détection pour visualiser le rayon
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, detectionRadius);
+        Gizmos.DrawWireSphere(new Vector2(transform.position.x, transform.position.y + offsetDetect), detectionDistance);
     }
 }

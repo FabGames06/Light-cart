@@ -2,3 +2,25 @@ le jeu commence par placer un charriot sur un choix de x rails (4 rails, 4 chemi
 le jeu sera dans le noir, éclairé seulement par une zone définie autour du charriot, ce qui fait qu'on ne voit pas trop la suite d'où mène le rail, ni s'il se fini par une voie de garage.
 le niveau sera généré de manière procédurale.
 il faut atteindre le tout haut de l'écran et éviter les voies de garage.
+
+📝 RÉSUMÉ DU TRAVAIL EFFECTUÉ SUR LE CHARIOT ET LES SPLINES
+
+📌 Objectif : Faire en sorte que le chariot détecte le rail sur lequel il se trouve et suive la spline correcte via son composant SplineAnimate.
+1️⃣ STRUCTURE DES PREFABS
+
+✅ Chaque prefab de rail contient plusieurs GameObjects :
+
+    Rail_NE : contient des objets S_vertical, S_NE, S_SO, etc.
+
+    Rail_Vertical : contient SplineStraight (SplineContainer pour aller vers le haut).
+
+    SplineRight : contient SplineContainer pour tourner à droite. ❌ Le SplineContainer n'est pas un enfant direct du rail, donc le script doit bien chercher où il est situé.
+
+2️⃣ DÉTECTION DU RAIL
+
+🔹 Méthode utilisée : Physics2D.OverlapCircle() détecte le rail sous le chariot. 🔹 Problème rencontré : Le rail est bien détecté, mais le script ne trouve pas automatiquement le bon SplineContainer.
+3️⃣ CORRECTION APPORTÉE POUR TROUVER LE BON SPLINECONTAINER
+
+💡 Solution : Lorsqu’un rail est détecté, le script cherche les GameObjects "SplineStraight" et "SplineRight" et récupère le SplineContainer qu'ils contiennent. ✔ On utilise GetComponentInChildren<SplineContainer>() pour retrouver la spline correcte. ✔ On assigne ensuite ce SplineContainer au SplineAnimate.Container du chariot.
+4️⃣ SCRIPT FINAL CORRIGÉ
+csharp

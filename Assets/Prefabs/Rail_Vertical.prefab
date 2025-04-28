@@ -35,6 +35,7 @@ Transform:
   - {fileID: 4782033724456428385}
   - {fileID: 2771322299574456818}
   - {fileID: 7040516472748118871}
+  - {fileID: 3113304452317182364}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2344268586741425060
@@ -50,7 +51,7 @@ GameObject:
   - component: {fileID: 769901227294451966}
   m_Layer: 0
   m_Name: S_vertical
-  m_TagString: Untagged
+  m_TagString: Rail
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -162,7 +163,7 @@ BoxCollider2D:
   m_Offset: {x: 0, y: -0.24}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.5000001, y: 0.4987516}
     oldSize: {x: 0.48, y: 0.48}
     newSize: {x: 0.48, y: 0.48}
     adaptiveTilingThreshold: 0.5
@@ -184,7 +185,7 @@ GameObject:
   - component: {fileID: 3800970857649325961}
   m_Layer: 0
   m_Name: S_vertical
-  m_TagString: Untagged
+  m_TagString: Rail
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -296,7 +297,7 @@ BoxCollider2D:
   m_Offset: {x: 0, y: -0.24}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.5000001, y: 0.4987516}
     oldSize: {x: 0.48, y: 0.48}
     newSize: {x: 0.48, y: 0.48}
     adaptiveTilingThreshold: 0.5
@@ -318,7 +319,7 @@ GameObject:
   - component: {fileID: 4069007124600473986}
   m_Layer: 0
   m_Name: S_vertical
-  m_TagString: Untagged
+  m_TagString: Rail
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -430,7 +431,7 @@ BoxCollider2D:
   m_Offset: {x: 0, y: -0.24}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.5000001, y: 0.4987516}
     oldSize: {x: 0.48, y: 0.48}
     newSize: {x: 0.48, y: 0.48}
     adaptiveTilingThreshold: 0.5
@@ -452,7 +453,7 @@ GameObject:
   - component: {fileID: 1348195805243805946}
   m_Layer: 0
   m_Name: S_vertical
-  m_TagString: Untagged
+  m_TagString: Rail
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -564,7 +565,7 @@ BoxCollider2D:
   m_Offset: {x: 0, y: -0.24}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.5000001, y: 0.4987516}
     oldSize: {x: 0.48, y: 0.48}
     newSize: {x: 0.48, y: 0.48}
     adaptiveTilingThreshold: 0.5
@@ -586,7 +587,7 @@ GameObject:
   - component: {fileID: 1205804752905341977}
   m_Layer: 0
   m_Name: S_vertical
-  m_TagString: Untagged
+  m_TagString: Rail
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -698,7 +699,7 @@ BoxCollider2D:
   m_Offset: {x: 0, y: -0.24}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.5000001, y: 0.4987516}
     oldSize: {x: 0.48, y: 0.48}
     newSize: {x: 0.48, y: 0.48}
     adaptiveTilingThreshold: 0.5
@@ -707,6 +708,118 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.48, y: 0.48}
   m_EdgeRadius: 0
+--- !u!1 &8416138142672897453
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3113304452317182364}
+  - component: {fileID: 1391731108736650491}
+  m_Layer: 0
+  m_Name: SplineStraight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3113304452317182364
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8416138142672897453}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.61, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4808945624870240365}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1391731108736650491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8416138142672897453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dab5c7d4c32e743048dfca98e2d5914f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Spline:
+    m_EditModeType: 1
+    m_Knots: []
+    m_MetaData: []
+    m_Closed: 0
+    m_IntData:
+      m_Data: []
+    m_FloatData:
+      m_Data: []
+    m_Float4Data:
+      m_Data: []
+    m_ObjectData:
+      m_Data: []
+  m_Splines:
+  - m_EditModeType: 1
+    m_Knots:
+    - Position:
+        x: 0
+        y: 0.07599974
+        z: 0
+      TangentIn:
+        x: -0
+        y: -0
+        z: -0.26430124
+      TangentOut:
+        x: 0
+        y: 0
+        z: 0.26430124
+      Rotation:
+        value:
+          x: -0.707106
+          y: -0.0010701572
+          z: 0.0010701512
+          w: 0.70710593
+    - Position:
+        x: -0.008
+        y: 2.7189999
+        z: 0
+      TangentIn:
+        x: -0
+        y: -0
+        z: -0.26430124
+      TangentOut:
+        x: 0
+        y: 0
+        z: 0.26430124
+      Rotation:
+        value:
+          x: -0.707106
+          y: -0.0010701582
+          z: 0.0010701502
+          w: 0.70710593
+    m_MetaData:
+    - Mode: 0
+      Tension: 0.5
+    - Mode: 0
+      Tension: 0.5
+    m_Closed: 0
+    m_IntData:
+      m_Data: []
+    m_FloatData:
+      m_Data: []
+    m_Float4Data:
+      m_Data: []
+    m_ObjectData:
+      m_Data: []
+  m_Knots:
+    m_KnotsLink: []
 --- !u!1 &8913615944946040965
 GameObject:
   m_ObjectHideFlags: 0
@@ -720,7 +833,7 @@ GameObject:
   - component: {fileID: 4991567847882344945}
   m_Layer: 0
   m_Name: S_vertical
-  m_TagString: Untagged
+  m_TagString: Rail
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -832,7 +945,7 @@ BoxCollider2D:
   m_Offset: {x: 0, y: -0.24}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.5000001, y: 0.4987516}
     oldSize: {x: 0.48, y: 0.48}
     newSize: {x: 0.48, y: 0.48}
     adaptiveTilingThreshold: 0.5

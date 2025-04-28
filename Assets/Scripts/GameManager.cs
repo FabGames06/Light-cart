@@ -23,7 +23,8 @@ public class GameManager : MonoBehaviour
         for(int b=0; b<nbLignes; b++)
             for(int a=0; a<nbColonnes; a++)
             {
-                int prefabIndex = Random.Range(1, 3);
+                int prefabIndex = Random.Range(1, 4);
+                //prefabIndex = 1;  // force uniquement des rails droits pour les tests
                 GameObject prefab;
                 switch(prefabIndex)
                 {
@@ -58,7 +59,7 @@ public class GameManager : MonoBehaviour
                 offsetRailVert = 0f;
                 // décalage artificiel pour un rail de type rail_vertical
                 if (prefab == railVert)
-                    offsetRailVert = .3f;
+                    offsetRailVert = .27f;
                 Vector3 posPrefab = new Vector3(-4f - offsetRailVert + pasIndex * a, offsetYPrefab + hauteurPrefab*b, 0f);
                 Instantiate(prefab, posPrefab, Quaternion.identity);
             }

@@ -5,6 +5,7 @@ public class GameManager : MonoBehaviour
     public int nbColonnes = 5;
     public int nbLignes = 10;
     public int nbPieges = 10;
+    public int nbPieces = 35;
     public float offsetYPrefab; // = -3.2f;
     public float hauteurPrefab; // = 2.68f;
 
@@ -15,6 +16,7 @@ public class GameManager : MonoBehaviour
     public GameObject railNE;
     public GameObject railNO;
     public GameObject barriere;
+    public GameObject coin;
 
     void Start()
     {
@@ -97,11 +99,73 @@ public class GameManager : MonoBehaviour
                 break;
             }
 
-            float ordonneeRandom = Random.Range(2, nbLignes);
+            float ordonneeRandom = Random.Range(2, nbLignes-1);
             // transformation des coordonnées (y)
             ordonneeRandom = hauteurPrefab * ordonneeRandom;
             Instantiate(barriere, new Vector3(abscisseRandom, ordonneeRandom), Quaternion.identity);
         }
+
+        // AJOUT DES BONUS PIECES (coin)
+        for (int a = 0; a < nbPieces; a++)
+        {
+            // test si pas déjà un coin à cet endroit pour éviter de les empiler
+            Vector3 nouvellePosition;
+            do
+            {
+                float abscisseRandom = Random.Range(1, nbColonnes - 1);
+
+                switch (abscisseRandom)
+                {
+                    case 1:
+                        abscisseRandom = -4.29f;    // -2.93f;
+                        break;
+
+                    case 2:
+                        abscisseRandom = -2.59f;    // -1.23f;
+                        break;
+
+                    case 3:
+                        abscisseRandom = -0.89f; // 0.47f;
+                        break;
+
+                    case 4:
+                        abscisseRandom = 0.81f;  // 2.17f;
+                        break;
+
+                    default:
+                    case 5:
+                        abscisseRandom = 2.51f; // 3.87f;
+                        break;
+                }
+
+                nouvellePosition = GenererPositionAleatoire(abscisseRandom, hauteurPrefab, nbLignes);
+            } while (!PositionLibre(nouvellePosition));
+
+            Instantiate(coin, nouvellePosition, Quaternion.identity);
+        }
     }
+
+    bool PositionLibre(Vector3 position)
+    {
+        Collider2D[] testCoins = Physics2D.OverlapCircleAll(position, 1f);
+
+        foreach (Collider2D coin in testCoins)
+        {
+            if (coin.name == "Coin" || coin.name == "Coin(Clone)")
+            {
+                return false; // Une pièce est déjà là, donc l'emplacement n'est pas libre
+            }
+        }
+        return true; // Aucun coin trouvé, l'emplacement est libre
+    }
+
+
+    Vector3 GenererPositionAleatoire(float abscisseRandom, float hauteurPrefab, int nbLignes)
+    {
+        float ordonneeRandom = Random.Range(1, nbLignes);
+        ordonneeRandom = (hauteurPrefab - 1.5f) * ordonneeRandom;
+        return new Vector3(abscisseRandom, ordonneeRandom);
+    }
+
 
 }

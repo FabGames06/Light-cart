@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3496394422153655619}
   - component: {fileID: 1597020642714478350}
   - component: {fileID: 5043762135975399975}
+  - component: {fileID: 7347368226362682863}
   m_Layer: 0
   m_Name: S_NE
   m_TagString: Untagged
@@ -122,7 +123,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.30208194}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.49999997, y: 0.9956305}
@@ -132,8 +133,20 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.62, y: 0.61}
+  m_Size: {x: 0.62, y: 0.6455388}
   m_EdgeRadius: 0
+--- !u!114 &7347368226362682863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 52403015039102557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08979d72e22cd6c49b270c9d915d84e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2661671401309172147
 GameObject:
   m_ObjectHideFlags: 0
@@ -185,6 +198,7 @@ GameObject:
   - component: {fileID: 5617174533959501812}
   - component: {fileID: 5790973600675083099}
   - component: {fileID: 4561170860618142145}
+  - component: {fileID: 8013953716777908718}
   m_Layer: 0
   m_Name: S_horizontal
   m_TagString: Untagged
@@ -308,6 +322,18 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.48, y: 0.48}
   m_EdgeRadius: 0
+--- !u!114 &8013953716777908718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3055434885945889701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08979d72e22cd6c49b270c9d915d84e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3958468822987698136
 GameObject:
   m_ObjectHideFlags: 0
@@ -319,6 +345,7 @@ GameObject:
   - component: {fileID: 2944394682895588191}
   - component: {fileID: 8960711025123404367}
   - component: {fileID: 3692708010991456865}
+  - component: {fileID: 6568503081030298240}
   m_Layer: 0
   m_Name: S_horizontal
   m_TagString: Untagged
@@ -442,6 +469,18 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.48, y: 0.48}
   m_EdgeRadius: 0
+--- !u!114 &6568503081030298240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3958468822987698136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08979d72e22cd6c49b270c9d915d84e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6288083367179173093
 GameObject:
   m_ObjectHideFlags: 0
@@ -645,6 +684,7 @@ GameObject:
   - component: {fileID: 1673494934592755772}
   - component: {fileID: 816677273252281264}
   - component: {fileID: 4321116808129113508}
+  - component: {fileID: 960049514022958706}
   m_Layer: 0
   m_Name: S_SO
   m_TagString: Untagged
@@ -756,7 +796,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.31096685}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.49631512, y: 0.99937576}
@@ -766,8 +806,20 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.62, y: 0.61}
+  m_Size: {x: 0.62, y: 0.6514621}
   m_EdgeRadius: 0
+--- !u!114 &960049514022958706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6864085069128059156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08979d72e22cd6c49b270c9d915d84e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8121408588244016160
 GameObject:
   m_ObjectHideFlags: 0
@@ -1338,7 +1390,13 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Untagged
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7136952541823549910, guid: f30ec30bbc50b8d4189bc3407488c79f, type: 3}
+    - {fileID: 4953832149063625415, guid: f30ec30bbc50b8d4189bc3407488c79f, type: 3}
+    - {fileID: 7154572084507391268, guid: f30ec30bbc50b8d4189bc3407488c79f, type: 3}
+    - {fileID: 1277535220128568395, guid: f30ec30bbc50b8d4189bc3407488c79f, type: 3}
+    - {fileID: 6216187239195691250, guid: f30ec30bbc50b8d4189bc3407488c79f, type: 3}
+    - {fileID: 2147849657496604002, guid: f30ec30bbc50b8d4189bc3407488c79f, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

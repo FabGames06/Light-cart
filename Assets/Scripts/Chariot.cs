@@ -1,4 +1,6 @@
-using System.Collections;
+using System;
+using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Splines;
 
@@ -7,15 +9,20 @@ public class Chariot : MonoBehaviour
     public float detectionDistance = .5f;
     public float offsetDetect = 0.5f;
     public GameObject canvastre;
+    public GameObject canvasGameOver;
+    public GameObject canvasHUD;
 
     private bool isRouling;
     private bool lancement;
     private SplineAnimate currentSplineAnimate;
+    private int nbCoins;
 
     void Start()
     {
         isRouling = false;
         lancement = false;
+        canvasGameOver.SetActive(false);
+        nbCoins = 0;
 
         currentSplineAnimate = GetComponent<SplineAnimate>();
 
@@ -65,24 +72,44 @@ public class Chariot : MonoBehaviour
 
     public void DetectCurrentRail()
     {
-        Collider2D railHit = Physics2D.OverlapCircle(new Vector2(transform.position.x, transform.position.y + offsetDetect), detectionDistance);
+        Collider2D railHit=null;
+        Collider2D[] railHitTab = Physics2D.OverlapCircleAll(new Vector2(transform.position.x, transform.position.y + offsetDetect), detectionDistance);
+
+        // classement des name de collider par ordre alphabétique pour avoir le "Sp" de Spline en dernier (les autres seront avant)
+        //railHitTab = railHitTab.OrderBy(c => c.name).ToArray();
+        // new : tri par valeur retournée
+        railHit = railHitTab.FirstOrDefault(c => c.gameObject.name == "S_vertical");
+
+        for (int i = 0;i < railHitTab.Length;i++)
+            Debug.Log("railHitTab[" + i + "] = " + railHitTab[i].name);
 
         if (railHit != null)
         {
-            Transform leParent = railHit.transform.parent;
+            Debug.Log("railHit = " + railHit + ";");
+
+            // game over si on heurte une barrière
+            if (Array.Exists(railHitTab, element => element.name == "Barriere(Clone)"))
+            {
+                Debug.Log("GAME OVER !");
+                lancement = false;
+                transform.gameObject.SetActive(false);
+                canvasGameOver.SetActive(true);
+            }
+
+            Transform leParent = railHit.gameObject.transform.parent;
 
             if (leParent == null)
                 Debug.Log("leParent est null...");
             else
             {
-                Debug.Log("railHit = " + railHit + "; prefab détecté : " + leParent);
-                
+                Debug.Log("leParent détecté : " + leParent);
+
                 SplineContainer[] leSplineContainerTab = leParent.GetComponentsInChildren<SplineContainer>();
                 Debug.Log("leSplineContainerTab[0]=" + leSplineContainerTab[0].name);
 
                 SplineContainer leSplineContainer = leSplineContainerTab[0];
 
-                if (leSplineContainerTab.Length>1)
+                if (leSplineContainerTab.Length > 1)
                 {
                     Debug.Log("leSplineContainerTab[1]=" + leSplineContainerTab[1].name);
                     leSplineContainer = leSplineContainerTab[1];
@@ -121,6 +148,17 @@ public class Chariot : MonoBehaviour
         {
             Debug.LogWarning("Aucun rail détecté, le chariot est en attente !");
             lancement = false;
+            //SceneManager.LoadScene("WinScene");
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision != null && (collision.gameObject.name == "Coin" || collision.gameObject.name == "Coin(Clone)"))
+        {
+            collision.gameObject.SetActive(false);
+            nbCoins++;
+            canvasHUD.GetComponentInChildren<TextMeshProUGUI>().text = "x "+nbCoins.ToString();
         }
     }
 

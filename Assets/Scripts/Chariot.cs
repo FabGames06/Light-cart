@@ -1,7 +1,9 @@
 using System;
+using System.Collections;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Splines;
 
 public class Chariot : MonoBehaviour
@@ -9,8 +11,9 @@ public class Chariot : MonoBehaviour
     public float detectionDistance = .5f;
     public float offsetDetect = 0.5f;
     public GameObject canvastre;
-    public GameObject canvasGameOver;
+    //public GameObject canvasGameOver;
     public GameObject canvasHUD;
+    public GameObject explosion;
 
     private bool isRouling;
     private bool lancement;
@@ -21,7 +24,7 @@ public class Chariot : MonoBehaviour
     {
         isRouling = false;
         lancement = false;
-        canvasGameOver.SetActive(false);
+        //canvasGameOver.SetActive(false);
         nbCoins = 0;
 
         currentSplineAnimate = GetComponent<SplineAnimate>();
@@ -54,15 +57,14 @@ public class Chariot : MonoBehaviour
                 lancement = true;
             }
         }
-
-        // lancement de la main routine
-        if (lancement)
+        else
         {
+            // lancement de la main routine
             if (!isRouling)
             {
                 DetectCurrentRail();
             }
-            else if(!currentSplineAnimate.IsPlaying)
+            else if (!currentSplineAnimate.IsPlaying)
             {
                 Debug.Log("animation end");
                 isRouling = false;
@@ -88,12 +90,14 @@ public class Chariot : MonoBehaviour
             Debug.Log("railHit = " + railHit + ";");
 
             // game over si on heurte une barrière
-            if (Array.Exists(railHitTab, element => element.name == "Barriere(Clone)"))
+            if (Array.Exists(railHitTab, element => element.name == "Barriere" || element.name == "Barriere(Clone)"))
             {
                 Debug.Log("GAME OVER !");
                 lancement = false;
-                transform.gameObject.SetActive(false);
-                canvasGameOver.SetActive(true);
+                //transform.gameObject.SetActive(false);
+                //canvasGameOver.SetActive(true);
+                StartCoroutine(Explose());
+                //SceneManager.LoadScene("GameOverScene");
             }
 
             Transform leParent = railHit.gameObject.transform.parent;
@@ -105,15 +109,29 @@ public class Chariot : MonoBehaviour
                 Debug.Log("leParent détecté : " + leParent);
 
                 SplineContainer[] leSplineContainerTab = leParent.GetComponentsInChildren<SplineContainer>();
-                Debug.Log("leSplineContainerTab[0]=" + leSplineContainerTab[0].name);
+                //Debug.Log("leSplineContainerTab[0]=" + leSplineContainerTab[0].name);
+
+                // tri du tableau par ordre alphabétique pour avoir SplineStraight en dernier par défaut
+                leSplineContainerTab= leSplineContainerTab.OrderBy(element => element.name).ToArray();
+                
+                for (int i = 0; i < leSplineContainerTab.Length; i++)
+                    Debug.Log("leSplineContainerTab[" + i + "] = " + leSplineContainerTab[i].name);
 
                 SplineContainer leSplineContainer = leSplineContainerTab[0];
 
+                // essai de donner le controle
+                if(Input.GetKey(KeyCode.UpArrow) && leSplineContainerTab.Length > 1)
+                {
+                    Debug.Log("touche Up appuyée");
+                    leSplineContainer = leSplineContainerTab[1];
+                }
+
+                /*
                 if (leSplineContainerTab.Length > 1)
                 {
-                    Debug.Log("leSplineContainerTab[1]=" + leSplineContainerTab[1].name);
-                    leSplineContainer = leSplineContainerTab[1];
-                    /*
+                    //Debug.Log("leSplineContainerTab[1]=" + leSplineContainerTab[1].name);
+                    //leSplineContainer = leSplineContainerTab[1];
+                    
                     // tourne à droite
                     if (leSplineContainerTab[1].name == "SplineRight" && Input.GetKey(KeyCode.RightArrow))
                     {
@@ -130,9 +148,9 @@ public class Chariot : MonoBehaviour
                     {
                         Debug.Log("touche gauche appuyée !");
                         leSplineContainer = leSplineContainerTab[1];
-                    }
-                    */
+                    }                    
                 }
+                */
 
                 if (currentSplineAnimate != null && leSplineContainer != null && currentSplineAnimate.Container != leSplineContainer)
                 {
@@ -150,6 +168,49 @@ public class Chariot : MonoBehaviour
             lancement = false;
             //SceneManager.LoadScene("WinScene");
         }
+    }
+
+    IEnumerator Explose()
+    {
+        // récupération des coords du chariot au moment de l'impact
+        Transform ChariotTrans = transform;
+
+        Vector3[] positions = new Vector3[]
+        {
+            new (ChariotTrans.position.x, ChariotTrans.position.y + .4f),
+            new (ChariotTrans.position.x - .2f, ChariotTrans.position.y + .2f),
+            new (ChariotTrans.position.x, ChariotTrans.position.y + .1f),
+            new (ChariotTrans.position.x + .2f, ChariotTrans.position.y + .2f)
+        };
+
+        // on fait disparaitre le chariot avant les explosions
+        transform.gameObject.SetActive(false);
+
+        foreach (Vector3 pos in positions)
+        {
+            GameObject explosionInstance = Instantiate(explosion, pos, Quaternion.identity);
+
+            // Attendre avant de détruire cette explosion
+            yield return new WaitForSeconds(0.5f);
+            Destroy(explosionInstance);
+        }
+
+        /*
+        Animator animator = explosion.GetComponent<Animator>();
+
+        if (animator == null)
+        {
+            Debug.LogError("Pas d'Animator sur le prefab !");
+            yield break;
+        }
+
+        // Attendre que l'animation active soit terminée
+        yield return new WaitUntil(() =>
+            animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f && !animator.IsInTransition(0)
+        );
+        */
+
+        SceneManager.LoadScene("GameOverScene");
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

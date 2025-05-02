@@ -12,8 +12,8 @@ public class PhareRotation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, rotate), Time.deltaTime);
-        rotate++;
+        transform.rotation = Quaternion.Euler(0, 0, rotate);
+        rotate += 100f * Time.deltaTime;
 
         if(rotate > 360f)
             rotate = 0f;

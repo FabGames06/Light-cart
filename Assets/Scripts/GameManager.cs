@@ -71,7 +71,7 @@ public class GameManager : MonoBehaviour
         // AJOUT DES BARRIERES PIEGES
         for(int a=0;a<nbPieges;a++)
         {
-            float abscisseRandom = Random.Range(1, nbColonnes-1);
+            float abscisseRandom = Random.Range(1, nbColonnes+1);
             // transformation des coordonnées (x)
             //abscisseRandom = -4f - offsetRailVert + pasIndex * abscisseRandom;
 
@@ -99,20 +99,20 @@ public class GameManager : MonoBehaviour
                 break;
             }
 
-            float ordonneeRandom = Random.Range(2, nbLignes-1);
+            float ordonneeRandom = Random.Range(1, nbLignes-1);
             // transformation des coordonnées (y)
             ordonneeRandom = hauteurPrefab * ordonneeRandom;
             Instantiate(barriere, new Vector3(abscisseRandom, ordonneeRandom), Quaternion.identity);
         }
 
-        // AJOUT DES BONUS PIECES (coin)
+        // AJOUT DES (BONUS) PIECES (coin)
         for (int a = 0; a < nbPieces; a++)
         {
             // test si pas déjà un coin à cet endroit pour éviter de les empiler
             Vector3 nouvellePosition;
             do
             {
-                float abscisseRandom = Random.Range(1, nbColonnes - 1);
+                float abscisseRandom = Random.Range(1, nbColonnes + 1);
 
                 switch (abscisseRandom)
                 {
@@ -156,13 +156,13 @@ public class GameManager : MonoBehaviour
                 return false; // Une pièce est déjà là, donc l'emplacement n'est pas libre
             }
         }
-        return true; // Aucun coin trouvé, l'emplacement est libre
+        return true; // Aucune pièce trouvée, l'emplacement est libre
     }
 
 
     Vector3 GenererPositionAleatoire(float abscisseRandom, float hauteurPrefab, int nbLignes)
     {
-        float ordonneeRandom = Random.Range(1, nbLignes);
+        float ordonneeRandom = Random.Range(1, nbLignes-1);
         ordonneeRandom = (hauteurPrefab - 1.5f) * ordonneeRandom;
         return new Vector3(abscisseRandom, ordonneeRandom);
     }

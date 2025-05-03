@@ -8,7 +8,7 @@ public class RotateChariot : MonoBehaviour
         Quaternion rotationInitiale = collision.transform.rotation;
         Quaternion rotationFinale;
 
-        switch (this.gameObject.name)
+        switch (collision.name)
         {
             case "S_NE":
             case "S_SO":

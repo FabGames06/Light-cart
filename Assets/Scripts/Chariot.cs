@@ -19,7 +19,6 @@ public class Chariot : MonoBehaviour
     private bool lancement;
     private SplineAnimate currentSplineAnimate;
     private int nbCoins;
-
     void Start()
     {
         isRouling = false;
@@ -96,7 +95,7 @@ public class Chariot : MonoBehaviour
                 lancement = false;
                 //transform.gameObject.SetActive(false);
                 //canvasGameOver.SetActive(true);
-                StartCoroutine(Explose());
+                Explosions();
                 //SceneManager.LoadScene("GameOverScene");
             }
 
@@ -111,15 +110,15 @@ public class Chariot : MonoBehaviour
                 SplineContainer[] leSplineContainerTab = leParent.GetComponentsInChildren<SplineContainer>();
                 //Debug.Log("leSplineContainerTab[0]=" + leSplineContainerTab[0].name);
 
-                // tri du tableau par ordre alphabétique pour avoir SplineStraight en dernier par défaut
-                leSplineContainerTab= leSplineContainerTab.OrderBy(element => element.name).ToArray();
+                // tri du tableau par ordre alphabétique pour avoir SplineStraight en premier par défaut
+                leSplineContainerTab= leSplineContainerTab.OrderByDescending(element => element.name).ToArray();
                 
                 for (int i = 0; i < leSplineContainerTab.Length; i++)
                     Debug.Log("leSplineContainerTab[" + i + "] = " + leSplineContainerTab[i].name);
 
                 SplineContainer leSplineContainer = leSplineContainerTab[0];
 
-                // essai de donner le controle
+                // essai de débloquer lors du bug "ligne droite"
                 if(Input.GetKey(KeyCode.UpArrow) && leSplineContainerTab.Length > 1)
                 {
                     Debug.Log("touche Up appuyée");
@@ -170,30 +169,37 @@ public class Chariot : MonoBehaviour
         }
     }
 
-    IEnumerator Explose()
+    public void Explosions()
     {
         // récupération des coords du chariot au moment de l'impact
         Transform ChariotTrans = transform;
 
-        Vector3[] positions = new Vector3[]
-        {
-            new (ChariotTrans.position.x, ChariotTrans.position.y + .4f),
-            new (ChariotTrans.position.x - .2f, ChariotTrans.position.y + .2f),
-            new (ChariotTrans.position.x, ChariotTrans.position.y + .1f),
-            new (ChariotTrans.position.x + .2f, ChariotTrans.position.y + .2f)
-        };
+        Vector3[] positions = new Vector3[4];
+        positions[0] = new(ChariotTrans.position.x, ChariotTrans.position.y + 1.5f);
+        positions[1] = new(ChariotTrans.position.x - .75f, ChariotTrans.position.y + .75f);
+        positions[2] = new(ChariotTrans.position.x, ChariotTrans.position.y + .5f);
+        positions[3] = new(ChariotTrans.position.x + .75f, ChariotTrans.position.y + .75f);
 
         // on fait disparaitre le chariot avant les explosions
-        transform.gameObject.SetActive(false);
+        //transform.gameObject.SetActive(false); --> risque de désactiver ce script si on le met active = false, et du coup désactive la suite aussi
+        lancement = false;
 
-        foreach (Vector3 pos in positions)
-        {
-            GameObject explosionInstance = Instantiate(explosion, pos, Quaternion.identity);
+        StartCoroutine(Explose(positions[0], 1f));
+        StartCoroutine(Explose(positions[1], 2f));
+        StartCoroutine(Explose(positions[2], 1.5f));
+        StartCoroutine(Explose(positions[3], .5f));
 
-            // Attendre avant de détruire cette explosion
-            yield return new WaitForSeconds(0.5f);
-            Destroy(explosionInstance);
-        }
+        //transform.gameObject.SetActive(false);
+        SpriteRenderer sr = transform.gameObject.GetComponent<SpriteRenderer>();
+        sr.enabled = false;
+        StartCoroutine(EndExplosions());
+    }
+    public IEnumerator Explose(Vector3 position, float temps)
+    {
+        GameObject explosionInstance = Instantiate(explosion, position, Quaternion.identity);
+        Debug.Log("Explosion de " + position);
+        yield return new WaitForSeconds(temps);
+        Destroy(explosionInstance, temps);
 
         /*
         Animator animator = explosion.GetComponent<Animator>();
@@ -210,14 +216,20 @@ public class Chariot : MonoBehaviour
         );
         */
 
-        SceneManager.LoadScene("GameOverScene");
+        //SceneManager.LoadScene("GameOverScene");
     }
 
+    public IEnumerator EndExplosions()
+    {
+        yield return new WaitForSeconds(1f);
+        SceneManager.LoadScene("GameOverScene");
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision != null && (collision.gameObject.name == "Coin" || collision.gameObject.name == "Coin(Clone)"))
         {
-            collision.gameObject.SetActive(false);
+            //collision.gameObject.SetActive(false);
+            Destroy(collision.gameObject);
             nbCoins++;
             canvasHUD.GetComponentInChildren<TextMeshProUGUI>().text = "x "+nbCoins.ToString();
         }

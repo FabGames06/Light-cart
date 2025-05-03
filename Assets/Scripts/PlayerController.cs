@@ -5,11 +5,9 @@ public class PlayerController : MonoBehaviour
 {
     private PlayerInputs_Actions playerInputs;
     private Vector2 moveInput;
-    private Chariot chariot;
     void Awake()
     {
         playerInputs = new PlayerInputs_Actions();
-        chariot = GetComponent<Chariot>();
     }
 
     void OnEnable()
@@ -25,7 +23,7 @@ public class PlayerController : MonoBehaviour
         if(moveInput.x<0)
         {
             Debug.Log("GAUCHE");
-            Debug.Log(chariot.instance.currentSplineAnimate);
+            Debug.Log(Chariot.Instance);
         }
 
         if(moveInput.x>0)

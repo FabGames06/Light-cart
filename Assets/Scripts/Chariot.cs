@@ -11,19 +11,34 @@ public class Chariot : MonoBehaviour
     public float detectionDistance = .5f;
     public float offsetDetect = 0.5f;
     public GameObject canvastre;
-    //public GameObject canvasGameOver;
     public GameObject canvasHUD;
     public GameObject explosion;
+    public static Chariot Instance { get; private set; }
 
     private bool isRouling;
     private bool lancement;
     private SplineAnimate currentSplineAnimate;
     private int nbCoins;
+
+    private void Awake()
+    {
+        // Singleton setup
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+
+        // DontDestroyOnLoad pour qu'il persiste entre les scènes
+        DontDestroyOnLoad(gameObject);
+    }
+
     void Start()
     {
         isRouling = false;
         lancement = false;
-        //canvasGameOver.SetActive(false);
         nbCoins = 0;
 
         currentSplineAnimate = GetComponent<SplineAnimate>();

@@ -23,13 +23,20 @@ public class PlayerController : MonoBehaviour
         if(moveInput.x<0)
         {
             Debug.Log("GAUCHE");
-            Debug.Log(Chariot.Instance);
+
+            for (int i = 0; i < Chariot.leSplineContainerTab.Length; i++)
+                Debug.Log("leSplineContainerTab[" + i + "] = " + Chariot.leSplineContainerTab[i].name);
+
+            if (Chariot.leSplineContainerTab[1].name == "SplineLeft")
+                Chariot.deraille = true;
         }
 
-        if(moveInput.x>0)
+        if (moveInput.x>0)
         {
             Debug.Log("DROITE");
-
+            Debug.Log("currentSplineAnimate=" + Chariot.leSplineContainerTab);
+            if (Chariot.leSplineContainerTab[1].name == "SplineRight")
+                Chariot.deraille = true;
         }
     }
 

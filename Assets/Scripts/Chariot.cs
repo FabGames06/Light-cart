@@ -13,13 +13,16 @@ public class Chariot : MonoBehaviour
     public GameObject canvastre;
     public GameObject canvasHUD;
     public GameObject explosion;
-    public static Chariot Instance { get; private set; }
+    //public static Chariot Instance { get; private set; }
 
     private bool isRouling;
     private bool lancement;
-    private SplineAnimate currentSplineAnimate;
+    public SplineAnimate currentSplineAnimate;
+    public static SplineContainer[] leSplineContainerTab;
+    public static bool deraille;
     private int nbCoins;
 
+    /*
     private void Awake()
     {
         // Singleton setup
@@ -34,11 +37,13 @@ public class Chariot : MonoBehaviour
         // DontDestroyOnLoad pour qu'il persiste entre les scènes
         DontDestroyOnLoad(gameObject);
     }
+    */
 
     void Start()
     {
         isRouling = false;
         lancement = false;
+        deraille = false;
         nbCoins = 0;
 
         currentSplineAnimate = GetComponent<SplineAnimate>();
@@ -122,7 +127,7 @@ public class Chariot : MonoBehaviour
             {
                 Debug.Log("leParent détecté : " + leParent);
 
-                SplineContainer[] leSplineContainerTab = leParent.GetComponentsInChildren<SplineContainer>();
+                leSplineContainerTab = leParent.GetComponentsInChildren<SplineContainer>();
                 //Debug.Log("leSplineContainerTab[0]=" + leSplineContainerTab[0].name);
 
                 // tri du tableau par ordre alphabétique pour avoir SplineStraight en premier par défaut
@@ -132,13 +137,17 @@ public class Chariot : MonoBehaviour
                     Debug.Log("leSplineContainerTab[" + i + "] = " + leSplineContainerTab[i].name);
 
                 SplineContainer leSplineContainer = leSplineContainerTab[0];
+                if(deraille && leSplineContainerTab.Length>1)
+                    leSplineContainer = leSplineContainerTab[1];
 
                 // essai de débloquer lors du bug "ligne droite"
-                if(Input.GetKey(KeyCode.UpArrow) && leSplineContainerTab.Length > 1)
+                /*
+                if (Input.GetKey(KeyCode.UpArrow) && leSplineContainerTab.Length > 1)
                 {
                     Debug.Log("touche Up appuyée");
                     leSplineContainer = leSplineContainerTab[1];
                 }
+                */
 
                 /*
                 if (leSplineContainerTab.Length > 1)

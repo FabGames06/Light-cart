@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -8,190 +9,159 @@ using UnityEngine.Splines;
 
 public class Chariot : MonoBehaviour
 {
-    public float detectionDistance = .5f;
+    public float detectionDistance = 1f;
     public float offsetDetect = 0.5f;
     public GameObject canvastre;
     public GameObject canvasHUD;
     public GameObject explosion;
-    //public static Chariot Instance { get; private set; }
 
-    private bool isRouling;
-    private bool lancement;
-    public SplineAnimate currentSplineAnimate;
-    public static SplineContainer[] leSplineContainerTab;
-    public static bool deraille;
+    public SplineContainer[] leSplineContainerTab;
+    public Spline currentSpline;
+    public float t = 0f; // Progression sur la spline
+    public float speed = 1f;
     private int nbCoins;
 
-    /*
-    private void Awake()
+    public Camera mainCamera;
+
+    public enum Etat
     {
-        // Singleton setup
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        Instance = this;
-
-        // DontDestroyOnLoad pour qu'il persiste entre les scènes
-        DontDestroyOnLoad(gameObject);
+        Commence,
+        Lance,
+        Toutdroit,
+        Deraille,
+        Detruit
     }
-    */
+
+    public Etat etatActuel;
 
     void Start()
     {
-        isRouling = false;
-        lancement = false;
-        deraille = false;
+        etatActuel = Etat.Commence;
         nbCoins = 0;
 
-        currentSplineAnimate = GetComponent<SplineAnimate>();
+        // Assurer que le chariot est bien visible en 2D
+        transform.position = new Vector3(transform.position.x, transform.position.y, 0);
 
-        if (currentSplineAnimate == null)
-            Debug.LogError("SplineAnimate introuvable sur le chariot !");
+        // Forcer l'affichage sur la bonne couche
+        GetComponent<SpriteRenderer>().sortingLayerName = "Foreground";
     }
 
     void Update()
     {
-        if (!lancement)
+        Debug.Log($"Position du chariot : {transform.position}");
+
+        // Vérification du suivi de la caméra
+        if (mainCamera != null)
+            mainCamera.transform.position = new Vector3(transform.position.x, transform.position.y, -10);
+
+        switch (etatActuel)
         {
-            if (Input.GetKeyDown(KeyCode.RightArrow))
-                transform.position = new Vector3(transform.position.x + 1.7f, transform.position.y);
+            case Etat.Commence:
+                if (Input.GetKeyDown(KeyCode.RightArrow))
+                    transform.position += new Vector3(1.7f, 0f);
 
-            if (Input.GetKeyDown(KeyCode.LeftArrow))
-                transform.position = new Vector3(transform.position.x - 1.7f, transform.position.y);
+                if (Input.GetKeyDown(KeyCode.LeftArrow))
+                    transform.position += new Vector3(-1.7f, 0f);
 
-            // controles des limites
-            // limite droite
-            if(transform.position.x > 2.54f)
-                transform.position = new Vector3(2.54f, transform.position.y);
-            // limite gauche
-            if (transform.position.x < -4.26f)
-                transform.position = new Vector3(-4.26f, transform.position.y);
+                transform.position = new Vector3(
+                    Mathf.Clamp(transform.position.x, -4.26f, 2.54f),
+                    transform.position.y,
+                    0);
 
-            if(Input.GetKeyDown(KeyCode.Space))
-            {
-                canvastre.SetActive(false);
-                lancement = true;
-            }
-        }
-        else
-        {
-            // lancement de la main routine
-            if (!isRouling)
-            {
-                DetectCurrentRail();
-            }
-            else if (!currentSplineAnimate.IsPlaying)
-            {
-                Debug.Log("animation end");
-                isRouling = false;
-            }
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    canvastre.SetActive(false);
+                    etatActuel = Etat.Lance;
+                }
+                break;
+
+            case Etat.Lance:
+                currentSpline = DetectCurrentRail();
+                t = 0f;
+                etatActuel = Etat.Toutdroit;
+                break;
+
+            case Etat.Toutdroit:
+                if (currentSpline != null)
+                {
+                    t += (speed * Time.deltaTime) / currentSpline.GetLength();
+                    t = Mathf.Clamp(t, 0, 1);
+
+                    // Vérifier si la spline est bien évaluée
+                    Vector3 evaluatedPos = SplineUtility.EvaluatePosition(currentSpline, t);
+                    if (float.IsNaN(evaluatedPos.x) || float.IsNaN(evaluatedPos.y))
+                    {
+                        Debug.LogError("Erreur : La position évaluée est NaN !");
+                        return;
+                    }
+
+                    // Conversion en coordonnées globales
+                    Vector3 worldPos = leSplineContainerTab[0].transform.TransformPoint(evaluatedPos);
+                    transform.position = new Vector3(worldPos.x, worldPos.y, 0); // Correction Z
+
+                    // Vérifier si la tangente est valide
+                    Vector3 tangent = SplineUtility.EvaluateTangent(currentSpline, t);
+                    if (float.IsNaN(tangent.x) || float.IsNaN(tangent.y))
+                    {
+                        Debug.LogError("Erreur : La tangente est NaN !");
+                        return;
+                    }
+
+                    transform.rotation = Quaternion.LookRotation(Vector3.forward, tangent); // Orientation 2D
+
+                    if (t >= 1f)
+                        etatActuel = Etat.Lance;
+                }
+                break;
+
+
+            case Etat.Detruit:
+                Debug.Log("Lancement de l'explosion !");
+                Explosions();
+                break;
         }
     }
 
-    public void DetectCurrentRail()
+    public Spline DetectCurrentRail()
     {
-        Collider2D railHit=null;
         Collider2D[] railHitTab = Physics2D.OverlapCircleAll(new Vector2(transform.position.x, transform.position.y + offsetDetect), detectionDistance);
-
-        // classement des name de collider par ordre alphabétique pour avoir le "Sp" de Spline en dernier (les autres seront avant)
-        //railHitTab = railHitTab.OrderBy(c => c.name).ToArray();
-        // new : tri par valeur retournée
-        railHit = railHitTab.FirstOrDefault(c => c.gameObject.name == "S_vertical");
-
-        for (int i = 0;i < railHitTab.Length;i++)
-            Debug.Log("railHitTab[" + i + "] = " + railHitTab[i].name);
+        Collider2D railHit = railHitTab.FirstOrDefault(c => c.gameObject.name == "S_vertical");
 
         if (railHit != null)
         {
-            Debug.Log("railHit = " + railHit + ";");
-
-            // game over si on heurte une barrière
-            if (Array.Exists(railHitTab, element => element.name == "Barriere" || element.name == "Barriere(Clone)"))
+            /*
+            Debug.Log("railHit=" + railHit);
+            if (railHitTab.Any(c => c.gameObject.name.Contains("Barriere") || c.gameObject.name.Contains("Barriere(Clone)")))
             {
                 Debug.Log("GAME OVER !");
-                lancement = false;
-                //transform.gameObject.SetActive(false);
-                //canvasGameOver.SetActive(true);
-                Explosions();
-                //SceneManager.LoadScene("GameOverScene");
+                etatActuel = Etat.Detruit;
+                return null;
             }
+            */
 
-            Transform leParent = railHit.gameObject.transform.parent;
-
+            Transform leParent = railHit.transform.parent;
             if (leParent == null)
-                Debug.Log("leParent est null...");
-            else
             {
-                Debug.Log("leParent détecté : " + leParent);
-
-                leSplineContainerTab = leParent.GetComponentsInChildren<SplineContainer>();
-                //Debug.Log("leSplineContainerTab[0]=" + leSplineContainerTab[0].name);
-
-                // tri du tableau par ordre alphabétique pour avoir SplineStraight en premier par défaut
-                leSplineContainerTab= leSplineContainerTab.OrderByDescending(element => element.name).ToArray();
-                
-                for (int i = 0; i < leSplineContainerTab.Length; i++)
-                    Debug.Log("leSplineContainerTab[" + i + "] = " + leSplineContainerTab[i].name);
-
-                SplineContainer leSplineContainer = leSplineContainerTab[0];
-                if(deraille && leSplineContainerTab.Length>1)
-                    leSplineContainer = leSplineContainerTab[1];
-
-                // essai de débloquer lors du bug "ligne droite"
-                /*
-                if (Input.GetKey(KeyCode.UpArrow) && leSplineContainerTab.Length > 1)
-                {
-                    Debug.Log("touche Up appuyée");
-                    leSplineContainer = leSplineContainerTab[1];
-                }
-                */
-
-                /*
-                if (leSplineContainerTab.Length > 1)
-                {
-                    //Debug.Log("leSplineContainerTab[1]=" + leSplineContainerTab[1].name);
-                    //leSplineContainer = leSplineContainerTab[1];
-                    
-                    // tourne à droite
-                    if (leSplineContainerTab[1].name == "SplineRight" && Input.GetKey(KeyCode.RightArrow))
-                    {
-                        Debug.Log("touche droite appuyée !");
-                        leSplineContainer = leSplineContainerTab[1];
-                        // force sur le nouveau rail
-                        currentSplineAnimate.Container = leSplineContainer; // Assigne le nouveau SplineContainer
-                        currentSplineAnimate.Restart(false);
-                        currentSplineAnimate.Play();
-                    }
-
-                    // tourne à gauche
-                    if (leSplineContainerTab[1].name == "SplineLeft" && Input.GetKey(KeyCode.LeftArrow))
-                    {
-                        Debug.Log("touche gauche appuyée !");
-                        leSplineContainer = leSplineContainerTab[1];
-                    }                    
-                }
-                */
-
-                if (currentSplineAnimate != null && leSplineContainer != null && currentSplineAnimate.Container != leSplineContainer)
-                {
-                    currentSplineAnimate.Container = leSplineContainer; // Assigne le nouveau SplineContainer
-                    currentSplineAnimate.Restart(false);
-                    //Debug.Log("Nouveau SplineContainer assigné : " + currentSplineAnimate.Container);
-                    currentSplineAnimate.Play();
-                    isRouling = true;
-                }
+                Debug.LogError("leParent est null...");
+                return null;
             }
+
+            leSplineContainerTab = leParent.GetComponentsInChildren<SplineContainer>()
+                                            .OrderByDescending(c => c.name)
+                                            .ToArray();
+
+            if (leSplineContainerTab.Length == 0)
+                return null;
+
+            return etatActuel == Etat.Deraille ? leSplineContainerTab[1].Spline : leSplineContainerTab[0].Spline;
         }
         else
         {
             Debug.LogWarning("Aucun rail détecté, le chariot est en attente !");
-            lancement = false;
-            //SceneManager.LoadScene("WinScene");
+            return null;
         }
     }
+
 
     public void Explosions()
     {
@@ -200,13 +170,13 @@ public class Chariot : MonoBehaviour
 
         Vector3[] positions = new Vector3[4];
         positions[0] = new(ChariotTrans.position.x, ChariotTrans.position.y + 1.5f);
-        positions[1] = new(ChariotTrans.position.x - .75f, ChariotTrans.position.y + .75f);
+        positions[1] = new(ChariotTrans.position.x - .5f, ChariotTrans.position.y + .75f);
         positions[2] = new(ChariotTrans.position.x, ChariotTrans.position.y + .5f);
-        positions[3] = new(ChariotTrans.position.x + .75f, ChariotTrans.position.y + .75f);
+        positions[3] = new(ChariotTrans.position.x + .5f, ChariotTrans.position.y + .75f);
 
         // on fait disparaitre le chariot avant les explosions
         //transform.gameObject.SetActive(false); --> risque de désactiver ce script si on le met active = false, et du coup désactive la suite aussi
-        lancement = false;
+        //lancement = false;
 
         StartCoroutine(Explose(positions[0], 1f));
         StartCoroutine(Explose(positions[1], 2f));
@@ -224,23 +194,6 @@ public class Chariot : MonoBehaviour
         Debug.Log("Explosion de " + position);
         yield return new WaitForSeconds(temps);
         Destroy(explosionInstance, temps);
-
-        /*
-        Animator animator = explosion.GetComponent<Animator>();
-
-        if (animator == null)
-        {
-            Debug.LogError("Pas d'Animator sur le prefab !");
-            yield break;
-        }
-
-        // Attendre que l'animation active soit terminée
-        yield return new WaitUntil(() =>
-            animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f && !animator.IsInTransition(0)
-        );
-        */
-
-        //SceneManager.LoadScene("GameOverScene");
     }
 
     public IEnumerator EndExplosions()
@@ -248,14 +201,21 @@ public class Chariot : MonoBehaviour
         yield return new WaitForSeconds(1f);
         SceneManager.LoadScene("GameOverScene");
     }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        // GESTION DES PIECES D'OR (COINS)
         if (collision != null && (collision.gameObject.name == "Coin" || collision.gameObject.name == "Coin(Clone)"))
         {
-            //collision.gameObject.SetActive(false);
             Destroy(collision.gameObject);
             nbCoins++;
-            canvasHUD.GetComponentInChildren<TextMeshProUGUI>().text = "x "+nbCoins.ToString();
+            canvasHUD.GetComponentInChildren<TextMeshProUGUI>().text = "x " + nbCoins.ToString();
+        }
+
+        if (collision != null && (collision.name == "Barriere" || collision.name == "Barriere(Clone)"))
+        {
+            Debug.Log("GAME OVER !");
+            etatActuel = Etat.Detruit;
         }
     }
 

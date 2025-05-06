@@ -75,13 +75,13 @@ public class Chariot : MonoBehaviour
                     canvastre.SetActive(false);
                     etatActuel = Etat.Lance;
                 }
-                break;
+            break;
 
             case Etat.Lance:
                 currentSpline = DetectCurrentRail();
                 t = 0f;
                 etatActuel = Etat.Toutdroit;
-                break;
+            break;
 
             case Etat.Toutdroit:
                 if (currentSpline != null)
@@ -114,13 +114,13 @@ public class Chariot : MonoBehaviour
                     if (t >= 1f)
                         etatActuel = Etat.Lance;
                 }
-                break;
+            break;
 
 
             case Etat.Detruit:
                 Debug.Log("Lancement de l'explosion !");
                 // sauvegarde du score dans un fichier json avant le changement de scène
-                // obigé de mettre un cast (int) bizarre vu que Math.Ceiling retourne un entier (arrondi) déjà
+                // obigé de mettre un cast (int) bizarre vu que Math.Ceiling retourne déjà un entier (arrondi)
                 ScoreData data = new ScoreData { score = (int)Math.Ceiling(nbCoins * speed) };
                 string json = JsonUtility.ToJson(data);
                 File.WriteAllText(cheminFichier, json);

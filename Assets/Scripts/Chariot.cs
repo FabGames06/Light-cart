@@ -1,10 +1,11 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.Splines;
 
 public class Chariot : MonoBehaviour
@@ -22,7 +23,7 @@ public class Chariot : MonoBehaviour
     private int nbCoins;
 
     public Camera mainCamera;
-
+    private string cheminFichier;
     public enum Etat
     {
         Commence,
@@ -38,6 +39,7 @@ public class Chariot : MonoBehaviour
     {
         etatActuel = Etat.Commence;
         nbCoins = 0;
+        cheminFichier = Path.Combine(Application.persistentDataPath, "temp.json");
 
         // Assurer que le chariot est bien visible en 2D
         transform.position = new Vector3(transform.position.x, transform.position.y, 0);
@@ -117,8 +119,13 @@ public class Chariot : MonoBehaviour
 
             case Etat.Detruit:
                 Debug.Log("Lancement de l'explosion !");
+                // sauvegarde du score dans un fichier json avant le changement de scène
+                // obigé de mettre un cast (int) bizarre vu que Math.Ceiling retourne un entier (arrondi) déjà
+                ScoreData data = new ScoreData { score = (int)Math.Ceiling(nbCoins * speed) };
+                string json = JsonUtility.ToJson(data);
+                File.WriteAllText(cheminFichier, json);
                 Explosions();
-                break;
+            break;
         }
     }
 
@@ -129,16 +136,6 @@ public class Chariot : MonoBehaviour
 
         if (railHit != null)
         {
-            /*
-            Debug.Log("railHit=" + railHit);
-            if (railHitTab.Any(c => c.gameObject.name.Contains("Barriere") || c.gameObject.name.Contains("Barriere(Clone)")))
-            {
-                Debug.Log("GAME OVER !");
-                etatActuel = Etat.Detruit;
-                return null;
-            }
-            */
-
             Transform leParent = railHit.transform.parent;
             if (leParent == null)
             {
@@ -198,7 +195,7 @@ public class Chariot : MonoBehaviour
 
     public IEnumerator EndExplosions()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.5f);
         SceneManager.LoadScene("GameOverScene");
     }
 
@@ -209,13 +206,21 @@ public class Chariot : MonoBehaviour
         {
             Destroy(collision.gameObject);
             nbCoins++;
-            canvasHUD.GetComponentInChildren<TextMeshProUGUI>().text = "x " + nbCoins.ToString();
+            canvasHUD.GetComponentInChildren<TextMeshProUGUI>().text = "x " + Math.Ceiling(nbCoins * speed).ToString();
         }
 
+        // GESTION GAME OVER AVEC UNE BARRIERE
         if (collision != null && (collision.name == "Barriere" || collision.name == "Barriere(Clone)"))
         {
             Debug.Log("GAME OVER !");
             etatActuel = Etat.Detruit;
+        }
+
+        // BONUS BOOST ACCELERATEUR
+        if (collision != null && (collision.name == "Boost" || collision.name == "Boost(Clone)"))
+        {
+            Destroy(collision.gameObject);
+            speed+=.5f;
         }
     }
 

@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
             if (chariot.leSplineContainerTab.Length > 1 && chariot.leSplineContainerTab[1].name == "SplineLeft")
             {
                 chariot.currentSpline = chariot.leSplineContainerTab[1].Spline;
-                chariot.t = 0f;  // Réinitialisation de la progression sur la nouvelle spline
+                chariot.t = 0.2f;  // Réinitialisation de la progression sur la nouvelle spline
                 chariot.etatActuel = Chariot.Etat.Toutdroit;
             }
         }
@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour
             if (chariot.leSplineContainerTab.Length > 1 && chariot.leSplineContainerTab[1].name == "SplineRight")
             {
                 chariot.currentSpline = chariot.leSplineContainerTab[1].Spline;
-                chariot.t = 0f;
+                chariot.t = 0.2f;
                 chariot.etatActuel = Chariot.Etat.Toutdroit;
             }
         }

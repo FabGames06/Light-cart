@@ -5,7 +5,7 @@ public class GameManager : MonoBehaviour
     public int nbColonnes = 5;
     public int nbLignes = 10;
     public int nbPieges = 10;
-    public int nbPieces = 35;
+    public int nbPieces = 45;
     public float offsetYPrefab; // = -3.2f;
     public float hauteurPrefab; // = 2.68f;
 
@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public GameObject railNO;
     public GameObject barriere;
     public GameObject coin;
+    public GameObject boost;
 
     void Start()
     {
@@ -141,7 +142,11 @@ public class GameManager : MonoBehaviour
                 nouvellePosition = GenererPositionAleatoire(abscisseRandom, hauteurPrefab, nbLignes);
             } while (!PositionLibre(nouvellePosition));
 
-            Instantiate(coin, nouvellePosition, Quaternion.identity);
+            int randomBonus = Random.Range(1, 3);
+            if(randomBonus == 1)
+                Instantiate(coin, nouvellePosition, Quaternion.identity);
+            else
+                Instantiate(boost, nouvellePosition, Quaternion.identity);
         }
     }
 

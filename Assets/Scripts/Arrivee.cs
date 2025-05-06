@@ -7,6 +7,8 @@ public class Arrivee : MonoBehaviour
     {
         // si on arrive à la ligne d'arrivée, c'est gagné, on change de scène
         if(collision!= null && collision.name=="Chariot")
+        {
             SceneManager.LoadScene("WinScene");
+        }
     }
 }

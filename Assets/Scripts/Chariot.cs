@@ -119,11 +119,8 @@ public class Chariot : MonoBehaviour
 
             case Etat.Detruit:
                 Debug.Log("Lancement de l'explosion !");
-                // sauvegarde du score dans un fichier json avant le changement de scène
-                // obigé de mettre un cast (int) bizarre vu que Math.Ceiling retourne déjà un entier (arrondi)
-                ScoreData data = new ScoreData { score = (int)Math.Ceiling(nbCoins * speed) };
-                string json = JsonUtility.ToJson(data);
-                File.WriteAllText(cheminFichier, json);
+
+                SauveScore();
                 Explosions();
             break;
         }
@@ -199,6 +196,15 @@ public class Chariot : MonoBehaviour
         SceneManager.LoadScene("GameOverScene");
     }
 
+    private void SauveScore()
+    {
+        // sauvegarde du score dans un fichier json avant le changement de scène
+        // obigé de mettre un cast (int) bizarre vu que Math.Ceiling retourne déjà un entier (arrondi)
+        ScoreData data = new ScoreData { score = (int)Math.Ceiling(nbCoins * speed) };
+        string json = JsonUtility.ToJson(data);
+        File.WriteAllText(cheminFichier, json);
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // GESTION DES PIECES D'OR (COINS)
@@ -221,6 +227,17 @@ public class Chariot : MonoBehaviour
         {
             Destroy(collision.gameObject);
             speed+=.5f;
+            // maj du score car la vitesse du boost est aussi un coef multiplicateur du score
+            canvasHUD.GetComponentInChildren<TextMeshProUGUI>().text = "x " + Math.Ceiling(nbCoins * speed).ToString();
+        }
+
+        // VICTOIRE SI ON FRANCHI LA LIGNE D'ARRIVEE
+        if (collision != null && collision.name == "LigneArrivee")
+        {
+            // sauvegarde du score
+            SauveScore();
+            // changement de scène
+            SceneManager.LoadScene("WinScene");
         }
     }
 

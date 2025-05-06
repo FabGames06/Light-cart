@@ -6,23 +6,7 @@ using UnityEngine.SceneManagement;
 public class ButtonsAction : MonoBehaviour
 {
     public TMP_InputField champPseudo;
-    public TextMeshProUGUI champScore;
-    private int score;
 
-    private void Start()
-    {
-        // récupération du score par le fichier créé sur la scène précédente
-        string cheminFichier = Path.Combine(Application.persistentDataPath, "temp.json");
-        if (File.Exists(cheminFichier))
-        {
-            // lecture du score sauvegardé précédemment
-            string json = File.ReadAllText(cheminFichier);
-            ScoreData data = JsonUtility.FromJson<ScoreData>(json);
-
-            // maj du text mesh pro
-
-        }
-    }
     public void Score()
     {
         int scoreIndex;

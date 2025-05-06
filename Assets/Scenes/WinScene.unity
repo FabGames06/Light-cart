@@ -267,6 +267,7 @@ GameObject:
   - component: {fileID: 238024713}
   - component: {fileID: 238024712}
   - component: {fileID: 238024711}
+  - component: {fileID: 238024715}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -363,6 +364,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &238024715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 238024710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e11b15f0d2372f4e9a9f6a05c608e8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  champScore: {fileID: 679286541}
 --- !u!1 &257921548
 GameObject:
   m_ObjectHideFlags: 0
@@ -511,7 +525,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   champPseudo: {fileID: 0}
-  champScore: {fileID: 0}
 --- !u!1 &262704784
 GameObject:
   m_ObjectHideFlags: 0
@@ -660,7 +673,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   champPseudo: {fileID: 1978631868}
-  champScore: {fileID: 679286541}
 --- !u!1 &342452684
 GameObject:
   m_ObjectHideFlags: 0
@@ -1820,7 +1832,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   champPseudo: {fileID: 0}
-  champScore: {fileID: 0}
 --- !u!1 &987475480
 GameObject:
   m_ObjectHideFlags: 0

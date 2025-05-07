@@ -72,8 +72,7 @@ public class Chariot : MonoBehaviour
 
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
-                    canvastre.SetActive(false);
-                    etatActuel = Etat.Lance;
+                    Lancement();
                 }
             break;
 
@@ -126,6 +125,12 @@ public class Chariot : MonoBehaviour
         }
     }
 
+    public void Lancement()
+    {
+        canvastre.SetActive(false);
+        etatActuel = Etat.Lance;
+
+    }
     public Spline DetectCurrentRail()
     {
         Collider2D[] railHitTab = Physics2D.OverlapCircleAll(new Vector2(transform.position.x, transform.position.y + offsetDetect), detectionDistance);

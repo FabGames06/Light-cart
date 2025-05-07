@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
     private PlayerInputs_Actions playerInputs;
     private Vector2 moveInput;
     public Chariot chariot;  // Référence au chariot
+    //public GameObject effetTouch;  // Effet visuel au toucher
 
     void Awake()
     {
@@ -23,24 +24,29 @@ public class PlayerController : MonoBehaviour
     {
         moveInput = ctx.ReadValue<Vector2>();
 
-        if (chariot != null && moveInput.x < 0)
+        /*
+        if (Touchscreen.current.primaryTouch.press.isPressed)
+        {
+            Vector2 touchPos = Touchscreen.current.primaryTouch.position.ReadValue();
+            Instantiate(effetTouch, Camera.main.ScreenToWorldPoint(new Vector3(touchPos.x, touchPos.y, 10f)), Quaternion.identity);
+        }
+        */
+
+        // Gestion du mouvement gauche/droite
+        if (chariot != null && moveInput.x < -0.5f) // Précision pour éviter les détections accidentelles
         {
             Debug.Log("GAUCHE");
-
-            // Changer de rail si une spline "SplineLeft" existe
             if (chariot.leSplineContainerTab.Length > 1 && chariot.leSplineContainerTab[1].name == "SplineLeft")
             {
                 chariot.currentSpline = chariot.leSplineContainerTab[1].Spline;
-                chariot.t = 0.2f;  // Réinitialisation de la progression sur la nouvelle spline
+                chariot.t = 0.2f;
                 chariot.etatActuel = Chariot.Etat.Toutdroit;
             }
         }
 
-        if (chariot != null && moveInput.x > 0)
+        if (chariot != null && moveInput.x > 0.5f)
         {
             Debug.Log("DROITE");
-
-            // Changer de rail si une spline "SplineRight" existe
             if (chariot.leSplineContainerTab.Length > 1 && chariot.leSplineContainerTab[1].name == "SplineRight")
             {
                 chariot.currentSpline = chariot.leSplineContainerTab[1].Spline;

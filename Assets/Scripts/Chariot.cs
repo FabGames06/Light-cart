@@ -192,7 +192,7 @@ public class Chariot : MonoBehaviour
 
     public IEnumerator EndExplosions()
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1f);
         SceneManager.LoadScene("GameOverScene");
     }
 
@@ -205,6 +205,12 @@ public class Chariot : MonoBehaviour
         File.WriteAllText(cheminFichier, json);
     }
 
+    private void RefreshScore()
+    {
+        canvasHUD.GetComponentsInChildren<TextMeshProUGUI>()[0].text = "x " + nbCoins.ToString();
+        canvasHUD.GetComponentsInChildren<TextMeshProUGUI>()[1].text = "SCORE : " + Math.Ceiling(nbCoins * speed).ToString();
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // GESTION DES PIECES D'OR (COINS)
@@ -212,7 +218,7 @@ public class Chariot : MonoBehaviour
         {
             Destroy(collision.gameObject);
             nbCoins++;
-            canvasHUD.GetComponentInChildren<TextMeshProUGUI>().text = "x " + Math.Ceiling(nbCoins * speed).ToString();
+            RefreshScore();
         }
 
         // GESTION GAME OVER AVEC UNE BARRIERE
@@ -228,7 +234,7 @@ public class Chariot : MonoBehaviour
             Destroy(collision.gameObject);
             speed+=.5f;
             // maj du score car la vitesse du boost est aussi un coef multiplicateur du score
-            canvasHUD.GetComponentInChildren<TextMeshProUGUI>().text = "x " + Math.Ceiling(nbCoins * speed).ToString();
+            RefreshScore();
         }
 
         // VICTOIRE SI ON FRANCHI LA LIGNE D'ARRIVEE

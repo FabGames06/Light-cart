@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class BackgroundScroller : MonoBehaviour
 {
+    // OBSOLETE, PAS PU TROUVER DE SHADER QUI GERE LE DéFILEMENT...
     public float scrollSpeed = 0.2f; // Vitesse de défilement vertical
     private Material backgroundMaterial;
 

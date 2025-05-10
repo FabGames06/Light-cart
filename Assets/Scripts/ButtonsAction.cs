@@ -6,7 +6,10 @@ using UnityEngine.SceneManagement;
 public class ButtonsAction : MonoBehaviour
 {
     public TMP_InputField champPseudo;
-
+    public void Index()
+    {
+        SceneManager.LoadScene("TitleScene");
+    }
     public void Score()
     {
         int scoreIndex;
@@ -48,6 +51,10 @@ public class ButtonsAction : MonoBehaviour
     public void Restart()
     {
         SceneManager.LoadScene("MainScene");
+    }
+    public void HighScores()
+    {
+        SceneManager.LoadScene("HighScoreScene");
     }
     public void Quit()
     {

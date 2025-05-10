@@ -38,16 +38,16 @@ public class HighScores : MonoBehaviour
         // maj du text mesh pro avec les scores classés + système de completion des "........" pour tjrs matcher à 35 caractères
         scoreTab.text = "";
 
-        // limitation aux 8 premiers
-        if(nbScores>8)
-            nbScores = 8;
+        // limitation aux 10 premiers
+        if(nbScores>10)
+            nbScores = 10;
 
         for (int i = 1; i <= nbScores; i++)
         {
-            int nbPoints = 35 - scoreData[i - 1].pseudo.Length - scoreData[i - 1].score.ToString().Length;
+            int nbPoints = 30 - scoreData[i - 1].pseudo.Length - scoreData[i - 1].score.ToString().Length;
             scoreTab.text += scoreData[i - 1].pseudo;
             for (int a = 0; a < nbPoints; a++)
-                scoreTab.text += ".";
+                scoreTab.text += "_";
             scoreTab.text += scoreData[i-1].score +"\n";
         }
             

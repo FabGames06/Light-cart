@@ -34,6 +34,7 @@ public class Chariot : MonoBehaviour
     }
 
     public Etat etatActuel;
+    private AudioManager audioInstance;
 
     void Start()
     {
@@ -46,6 +47,9 @@ public class Chariot : MonoBehaviour
 
         // Forcer l'affichage sur la bonne couche
         GetComponent<SpriteRenderer>().sortingLayerName = "Foreground";
+
+        // récupération de l'instance d'AudioManager
+        audioInstance = AudioManager.instance;
     }
 
     void Update()
@@ -224,6 +228,8 @@ public class Chariot : MonoBehaviour
             Destroy(collision.gameObject);
             nbCoins++;
             RefreshScore();
+            audioInstance.audioSource.clip = audioInstance.playlist[(int)AudioManager.Sounds.Coin];
+            audioInstance.audioSource.Play();
         }
 
         // GESTION GAME OVER AVEC UNE BARRIERE
@@ -231,6 +237,8 @@ public class Chariot : MonoBehaviour
         {
             Debug.Log("GAME OVER !");
             etatActuel = Etat.Detruit;
+            audioInstance.audioSource.clip = audioInstance.playlist[(int)AudioManager.Sounds.Destroy];
+            audioInstance.audioSource.Play();
         }
 
         // BONUS BOOST ACCELERATEUR
@@ -240,6 +248,8 @@ public class Chariot : MonoBehaviour
             speed+=.5f;
             // maj du score car la vitesse du boost est aussi un coef multiplicateur du score
             RefreshScore();
+            audioInstance.audioSource.clip = audioInstance.playlist[(int)AudioManager.Sounds.Boost];
+            audioInstance.audioSource.Play();
         }
 
         // VICTOIRE SI ON FRANCHI LA LIGNE D'ARRIVEE
